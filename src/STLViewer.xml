@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+    id="avocodo.stlviewer.stlviewer"
+    pluginWidget="true"
+    needsEntityContext="true"
+    offlineCapable="true"
+    supportedPlatform="Web"
+    xmlns="http://www.mendix.com/widget/1.0/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+    <name>STLViewer</name>
+    <description>Custom viewer for STL files</description>
+    <icon />
+    <properties>
+        <propertyGroup caption="DataSource">
+            <property key="file" type="file" required="false">
+                <caption>File</caption>
+                <description>Modelfile</description>
+            </property>
+             <property key="volume" type="attribute" required="false">
+                <caption>volume of model </caption>
+                <description>will be set by the viewer to this variable</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Styling">
+            <property key="width" type="integer" defaultValue="500">
+                <caption>Width</caption>
+                <description>Width of Viewer</description>
+            </property>
+            <property key="height" type="integer" defaultValue="500">
+                <caption>Height</caption>
+                <description>Height of Viewer</description>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Events">
+            <property key="onClickAction" type="action" required="false">
+                <caption>On click action</caption>
+                <description>Action to trigger when clicked</description>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>

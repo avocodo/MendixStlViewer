@@ -1,0 +1,29 @@
+#root {
+    $height: 750px;
+    $width: 750px;
+}
+
+.loadingDiv {
+    background: #ffff;
+    height: var(--height);
+    width: var(--width);
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    z-index: 3;
+}
+.volumeDiv {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: dodgerblue;
+    color: white;
+    font-weight: bold;
+    padding: 0.5em;
+}
+.volumeWrapperDiv {
+    width: fit-content;
+    height: fit-content;
+}
