@@ -2,9 +2,9 @@
   "name": "stlviewer",
   "widgetName": "stlviewer",
   "version": "1.0.0",
-  "description": "Viewer for STL Files in Mendix",
-  "copyright": "2020 Mendix Technology BV",
-  "author": "david mair",
+  "description": "Viewer for STL files in Mendix",
+  "copyright": "2022 Avocodo GmbH",
+  "author": "Avocodo GmbH",
   "engines": {
     "node": ">=12"
   },
@@ -22,7 +22,7 @@
     "prerelease": "npm run lint",
     "release": "pluggable-widgets-tools release:web"
   },
-  "license": "Apache-2.0",
+  "license": "CC BY-SA 4.0",
   "devDependencies": {
     "@mendix/pluggable-widgets-tools": "^9.9.2",
     "@types/big.js": "^6.0.2",

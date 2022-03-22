@@ -1,8 +1,8 @@
 ## STLViewer
-Used to display STL Filedocuments in Mendix. This widget displays basic information like length, width and height. The aproximate volume of a 3D STL model can be extracted and stored in a variable if needed.
+Used to display STL file documents in Mendix. This widget displays basic information like length, width and height. The aproximate volume of a 3D STL model can be extracted and stored in a variable if needed.
 
 ## Features
-Display of 3D STL Model, Calculate and store volume, display dimensions
+Display of 3D STL model, calculate and store volume, display dimensions
 
 
 ## Development and contribution
@@ -14,7 +14,7 @@ Display of 3D STL Model, Calculate and store volume, display dimensions
     - the bundle will be included in the `deployment` and `widgets` folder of the Mendix test project.
 
 Sources used:
-https://github.com/yatheeshraju/react-stl-file-viewer
-https://stackoverflow.com/questions/25432540/draw-dimension-lines-along-with-3d-cube-using-three-js
+ * [basic react stl viewer](https://github.com/yatheeshraju/react-stl-file-viewer)
+ * [2D dimension Lines](https://stackoverflow.com/questions/25432540/draw-dimension-lines-along-with-3d-cube-using-three-js)
 
-Licence: CC BY-SA 4.0
+Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
