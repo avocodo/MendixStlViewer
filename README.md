@@ -1,9 +1,11 @@
 ## STLViewer
-Used to display STL file documents in Mendix. This widget displays basic information like length, width and height. The aproximate volume of a 3D STL model can be extracted and stored in a variable if needed.
+Used to display STL file documents in Mendix. This widget displays basic information like length, width and height. The approximate volume of a 3D STL model can be extracted and stored in a variable if needed.
 
 ## Features
 Display of 3D STL model, calculate and store volume, display dimensions
 
+![rotating model](/images/rotation.gif)
+![dimensions of model](/images/rotation.gif)
 
 ## Development and contribution
 
