@@ -4,8 +4,8 @@ Used to display STL file documents in Mendix. This widget displays basic informa
 ## Features
 Display of 3D STL model, calculate and store volume, display dimensions
 
-![rotating model](/images/rotation.gif =250x250)
-![dimensions of model](/images/dimensions.gif =250x250)
+![rotating model](/images/rotation.gif)
+![dimensions of model](/images/dimensions.gif)
 ## Development and contribution
 
 1. Install NPM package dependencies by using: `npm install`. If you use NPM v7.x.x, which can be checked by executing `npm -v`, execute: `npm install --legacy-peer-deps`.
