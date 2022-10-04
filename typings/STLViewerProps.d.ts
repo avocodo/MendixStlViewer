@@ -6,6 +6,8 @@
 import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, EditableValue, FileValue } from "mendix";
 
+export type SizeUnitEnum = "px" | "percentage";
+
 export interface stlviewerContainerProps {
     name: string;
     class: string;
@@ -13,6 +15,11 @@ export interface stlviewerContainerProps {
     tabIndex?: number;
     file?: DynamicValue<FileValue>;
     volume?: EditableValue<string>;
+    objHeight?: EditableValue<string>;
+    objWidth?: EditableValue<string>;
+    objDepth?: EditableValue<string>;
+    b64Screenshot?: EditableValue<string>;
+    sizeUnit: SizeUnitEnum;
     width: number;
     height: number;
     onClickAction?: ActionValue;
@@ -25,6 +32,11 @@ export interface stlviewerPreviewProps {
     readOnly: boolean;
     file: string;
     volume: string;
+    objHeight: string;
+    objWidth: string;
+    objDepth: string;
+    b64Screenshot: string;
+    sizeUnit: SizeUnitEnum;
     width: number | null;
     height: number | null;
     onClickAction: {} | null;

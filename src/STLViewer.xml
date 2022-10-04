@@ -25,8 +25,44 @@
                     <attributeType name="String"/>
                 </attributeTypes>
             </property>
+              <property key="objHeight" type="attribute" required="false">
+                <caption>height of model </caption>
+                <description>will be set by the viewer to this variable</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
+             <property key="objWidth" type="attribute" required="false">
+                <caption>width of model </caption>
+                <description>will be set by the viewer to this variable</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
+             <property key="objDepth" type="attribute" required="false">
+                <caption>depth of model </caption>
+                <description>will be set by the viewer to this variable</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+                    </property>
+                   <property key="b64Screenshot" type="attribute" required="false">
+                <caption>Screenshot of model as base64 string </caption>
+                <description>will be set by the viewer to this variable</description>
+                <attributeTypes>
+                    <attributeType name="String"/>
+                </attributeTypes>
+            </property>
         </propertyGroup>
         <propertyGroup caption="Styling">
+            <property key="sizeUnit" type="enumeration" defaultValue="px">
+                <caption>Size Unit</caption>
+                <description>Choose px for fixed size or percentage for dynamic size</description>
+                <enumerationValues>
+                    <enumerationValue key="px">px</enumerationValue>
+                    <enumerationValue key="percentage">percentage</enumerationValue>
+                </enumerationValues>
+            </property>
             <property key="width" type="integer" defaultValue="500">
                 <caption>Width</caption>
                 <description>Width of Viewer</description>

@@ -6,6 +6,7 @@ let scene;
 let renderer;
 let controls;
 let id = null;
+
 class RayysLinearDimension {
     constructor(domRoot, renderer, camera) {
         this.domRoot = domRoot;
@@ -17,7 +18,7 @@ class RayysLinearDimension {
         this.config = {
             headLength: 5,
             headWidth: 0.5,
-            units: "mm",
+            units: "cm",
             unitsConverter(v) {
                 return v;
             }
@@ -115,7 +116,7 @@ class RayysLinearDimension {
             const dimHeight = this.domElement.offsetHeight;
             this.domElement.style.left = `${clientX - dimWidth / 2}px`;
             this.domElement.style.top = `${clientY - dimHeight / 2}px`;
-            this.domElement.innerHTML = `${this.config.unitsConverter(pmin.distanceTo(pmax)).toFixed(2)}${
+            this.domElement.innerHTML = `${(this.config.unitsConverter(pmin.distanceTo(pmax)/10).toFixed(2))}${
                 this.config.units
             }`;
         }
@@ -185,13 +186,14 @@ class RayysFacingCamera {
     }
 }
 
-export default function Stl(width, height, file, objectColor, primaryColor,volume) {
-    let rotateModel = true;
+export default function Stl(width, height, file, objectColor, primaryColor,volume,objHeight,objWidth,objDepth,b64Screenshot) {
+    let rotateModel = false;
     let showGrid = false;
     document.getElementById("errorView").style.display = "none";
     if (id !== null) {
         cancelAnimationFrame(id);
     }
+    scene = null;
     scene = new THREE.Scene();
     scene.background = new THREE.Color(255, 255, 255);
     scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
@@ -216,18 +218,18 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
     const grid = new THREE.GridHelper(2000, 20, primaryColor, primaryColor);
     grid.material.opacity = 0.2;
     grid.material.transparent = true;
-    scene.add(grid);
+    if(showGrid){
+        scene.add(grid);
+    }
     const rotationBtn = document.getElementById("rotate");
     rotationBtn.addEventListener("click", () => {
-        console.log(rotateModel);
         rotateModel = !rotateModel;
         controls.autoRotate = rotateModel;
     });
     const gridBtn = document.getElementById("grid");
     gridBtn.addEventListener("click", () => {
-        console.log(showGrid);
         showGrid = !showGrid;
-        if (showGrid) {
+        if (!showGrid) {
             scene.remove(grid);
         } else {
             scene.add(grid);
@@ -256,10 +258,10 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
     });
 
     const loader = new STLLoader();
-
     loader.load(
-        file.uri,
+        file?.uri,
         geometry => {
+            loadedModel = null;
             loadedModel = new THREE.Mesh(geometry, material);
             loadedModel.position.set(0, 0, 0);
             loadedModel.scale.set(1, 1, 1);
@@ -267,6 +269,7 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
             loadedModel.castShadow = true;
             loadedModel.receiveShadow = true;
             loadedModel.geometry.computeBoundingBox();
+            loadedModel.geometry.center()
             scene.add(loadedModel);
             let position = loadedModel.geometry.attributes.position;
             let faces = position.count / 3;
@@ -280,11 +283,12 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
                 p3.fromBufferAttribute(position, i * 3 + 2);
                 sum += signedVolumeOfTriangle(p1, p2, p3);
             }
+            sum=sum/1000 //convert to cubic centimeters
             volume(sum)
-            
+           
         },
         xhr => {
-            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");         
         },
         error => {
             if (
@@ -297,14 +301,20 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
                 console.log(error);
                 document.getElementById("errorView").style.display = "flex";
             }
-        }
+        },
     );
-
+ 
     const signedVolumeOfTriangle = (p1, p2, p3) => {
         return p1.dot(p2.cross(p3)) / 6.0;
     };
+  
     const dim0 = new RayysLinearDimension(document.getElementById("stlviewer"), renderer, camera);
     const dim1 = new RayysLinearDimension(document.getElementById("stlviewer"), renderer, camera);
+   
+   
+
+
+
     facingCamera.cb.facingDirChange.push(event => {
         const facingDir = facingCamera.dirs[event.current.best];
         if (dim0.node !== undefined) {
@@ -314,9 +324,11 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
             dim1.detach();
         }
         const bbox = loadedModel.geometry.boundingBox;
-        const signedVolumeOfTriangle = (p1, p2, p3) => {
-            return p1.dot(p2.cross(p3)) / 6.0;
-        };
+        let dimVector = new THREE.Vector3();
+        bbox.getSize(dimVector);
+        objHeight(dimVector.x);
+        objWidth(dimVector.y);
+        objDepth(dimVector.z);
         if (Math.abs(facingDir.x) === 1) {
             let from = new THREE.Vector3(bbox.min.x, bbox.min.y, bbox.min.z);
             let to = new THREE.Vector3(bbox.max.x, bbox.min.y, bbox.max.z);
@@ -363,11 +375,13 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
         id = requestAnimationFrame(animate);
         if (loadedModel != null) {
             facingCamera.check(camera);
-        }
+                b64Screenshot(renderer.domElement.toDataURL("image/jpeg"));
+            }
         dim0.update(camera);
         dim1.update(camera);
         controls.update();
         renderer.render(scene, camera);
+       
     };
     animate();
 }

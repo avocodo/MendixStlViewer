@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Stl from "./STLArrows";
 
-export const StlViewer = ({ width, height, file, objectColor, primaryColor, volume }) => {
+export const StlViewer = ({ width, height, file, objectColor, primaryColor, volume, objHeight, objWidth, objDepth,b64Screenshot }) => {
     useEffect(() => {
         Stl(
             width,
@@ -9,7 +9,11 @@ export const StlViewer = ({ width, height, file, objectColor, primaryColor, volu
             file,
             objectColor ? objectColor : "#ff6600",
             primaryColor ? primaryColor : "#1e90ff",
-            volume
+            volume,
+            objWidth,
+            objHeight,
+            objDepth,
+            b64Screenshot
         );
     }, [file]);
     const buttonStyle = {

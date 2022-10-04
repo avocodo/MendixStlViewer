@@ -1,6 +1,7 @@
 #root {
     $height: 750px;
     $width: 750px;
+ 
 }
 
 .loadingDiv {
@@ -26,4 +27,9 @@
 .volumeWrapperDiv {
     width: fit-content;
     height: fit-content;
+}
+.wrapperDiv {
+    width: fit-content;
+    height: fit-content;
+    overflow:hidden;
 }
