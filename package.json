@@ -24,28 +24,19 @@
   },
   "license": "CC BY-SA 4.0",
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^9.9.2",
-    "@types/big.js": "^6.0.2",
-    "@types/classnames": "^2.2.4",
-    "@types/react": "~17.0.1",
-    "@types/react-dom": "~17.0.1",
-    "sass": "^1.49.7"
+    "@mendix/pluggable-widgets-tools": "^9.17.0"
   },
   "dependencies": {
-    "@types/downloadjs": "^1.4.2",
-    "@types/three": "^0.135.0",
-    "classnames": "^2.2.6",
-    "downloadjs": "^1.4.7",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^27.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "mendix": "^9.18.53394",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-loader-spinner": "^5.1.2",
-    "react-spinners": "^0.11.0",
-    "react-stl-file-viewer": "0.0.5",
-    "react-stl-viewer": "^2.0.3",
-    "react-three-fiber": "^6.0.13",
-    "spinners-react": "^1.0.6",
-    "stl-viewer": "^0.12.0",
-    "styled-components": "^5.3.3",
-    "three": "^0.135.0"
+    "spinners-react": "^1.0.7"
   }
 }

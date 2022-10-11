@@ -196,8 +196,7 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
     scene = null;
     scene = new THREE.Scene();
     scene.background = new THREE.Color(255, 255, 255);
-    scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
-    camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+    camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
     camera.position.set(200, 100, 200);
 
     renderer = new THREE.WebGLRenderer({
