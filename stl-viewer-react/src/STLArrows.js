@@ -116,9 +116,8 @@ class RayysLinearDimension {
             const dimHeight = this.domElement.offsetHeight;
             this.domElement.style.left = `${clientX - dimWidth / 2}px`;
             this.domElement.style.top = `${clientY - dimHeight / 2}px`;
-            this.domElement.innerHTML = `${(this.config.unitsConverter(pmin.distanceTo(pmax)/10).toFixed(2))}${
-                this.config.units
-            }`;
+            this.domElement.innerHTML = `${(this.config.unitsConverter(pmin.distanceTo(pmax) / 10).toFixed(2))}${this.config.units
+                }`;
         }
     }
     detach() {
@@ -186,9 +185,10 @@ class RayysFacingCamera {
     }
 }
 
-export default function Stl(width, height, file, objectColor, primaryColor,volume,objHeight,objWidth,objDepth,b64Screenshot) {
+export default function Stl(width, height, file, objectColor, primaryColor, volume, objHeight, objWidth, objDepth, b64Screenshot) {
     let rotateModel = false;
     let showGrid = false;
+    let repositioned = new Boolean(false);
     document.getElementById("errorView").style.display = "none";
     if (id !== null) {
         cancelAnimationFrame(id);
@@ -198,7 +198,6 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
     scene.background = new THREE.Color(255, 255, 255);
     camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
     camera.position.set(200, 100, 200);
-
     renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
@@ -217,7 +216,7 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
     const grid = new THREE.GridHelper(2000, 20, primaryColor, primaryColor);
     grid.material.opacity = 0.2;
     grid.material.transparent = true;
-    if(showGrid){
+    if (showGrid) {
         scene.add(grid);
     }
     const rotationBtn = document.getElementById("rotate");
@@ -255,7 +254,7 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
         shininess: 150,
         vertexColors: false
     });
-
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
     const loader = new STLLoader();
     loader.load(
         file?.uri,
@@ -282,12 +281,12 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
                 p3.fromBufferAttribute(position, i * 3 + 2);
                 sum += signedVolumeOfTriangle(p1, p2, p3);
             }
-            sum=sum/1000 //convert to cubic centimeters
+            sum = sum / 1000 //convert to cubic centimeters
             volume(sum)
-           
+
         },
         xhr => {
-            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");         
+            console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
         },
         error => {
             if (
@@ -302,17 +301,86 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
             }
         },
     );
- 
+
     const signedVolumeOfTriangle = (p1, p2, p3) => {
         return p1.dot(p2.cross(p3)) / 6.0;
     };
-  
+    const fitCameraToCenteredObject = (camera, object, offset, orbitControls) => {
+        const boundingBox = object.geometry.boundingBox
+        var size = new THREE.Vector3();
+        boundingBox.getSize(size);
+
+        // figure out how to fit the box in the view:
+        // 1. figure out horizontal FOV (on non-1.0 aspects)
+        // 2. figure out distance from the object in X and Y planes
+        // 3. select the max distance (to fit both sides in)
+        //
+        // The reason is as follows:
+        //
+        // Imagine a bounding box (BB) is centered at (0,0,0).
+        // Camera has vertical FOV (camera.fov) and horizontal FOV
+        // (camera.fov scaled by aspect, see fovh below)
+        //
+        // Therefore if you want to put the entire object into the field of view,
+        // you have to compute the distance as: z/2 (half of Z size of the BB
+        // protruding towards us) plus for both X and Y size of BB you have to
+        // figure out the distance created by the appropriate FOV.
+        //
+        // The FOV is always a triangle:
+        //
+        //  (size/2)
+        // +--------+
+        // |       /
+        // |      /
+        // |     /
+        // | FÂ° /
+        // |   /
+        // |  /
+        // | /
+        // |/
+        //
+        // FÂ° is half of respective FOV, so to compute the distance (the length
+        // of the straight line) one has to: `size/2 / Math.tan(F)`.
+        //
+        // FTR, from https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
+        // the camera.fov is the vertical FOV.
+
+
+        const fov = camera.fov * (Math.PI / 180);
+        const fovh = 2 * Math.atan(Math.tan(fov / 2) * camera.aspect);
+        let dx = size.z / 2 + Math.abs(size.x / 2 / Math.tan(fovh / 2));
+        let dy = size.z / 2 + Math.abs(size.y / 2 / Math.tan(fov / 2));
+        let cameraZ = Math.max(dx, dy);
+
+        // offset the camera, if desired (to avoid filling the whole canvas)
+        if (offset !== undefined && offset !== 0) cameraZ *= offset;
+
+        camera.position.set(0, 0, cameraZ);
+
+        // set the far plane of the camera so that it easily encompasses the whole object
+        const minZ = boundingBox.min.z;
+        const cameraToFarEdge = (minZ < 0) ? -minZ + cameraZ : cameraZ - minZ;
+
+        camera.far = cameraToFarEdge * 3;
+        camera.updateProjectionMatrix();
+
+        if (orbitControls !== undefined) {
+            // set camera to rotate around the center
+            orbitControls.target = new THREE.Vector3(0, 0, 0);
+
+            // prevent camera from zooming out far enough to create far plane cutoff
+            orbitControls.maxDistance = cameraToFarEdge * 2;
+        }
+    };
     const dim0 = new RayysLinearDimension(document.getElementById("stlviewer"), renderer, camera);
     const dim1 = new RayysLinearDimension(document.getElementById("stlviewer"), renderer, camera);
-   
-   
 
 
+    function onDocumentMouseDown(event) {
+
+        event.preventDefault();
+        repositioned = true;
+    }
 
     facingCamera.cb.facingDirChange.push(event => {
         const facingDir = facingCamera.dirs[event.current.best];
@@ -328,6 +396,9 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
         objHeight(dimVector.x);
         objWidth(dimVector.y);
         objDepth(dimVector.z);
+        if (loadedModel != null && repositioned == false) {
+            fitCameraToCenteredObject(camera, loadedModel, 2, controls);
+        }
         if (Math.abs(facingDir.x) === 1) {
             let from = new THREE.Vector3(bbox.min.x, bbox.min.y, bbox.min.z);
             let to = new THREE.Vector3(bbox.max.x, bbox.min.y, bbox.max.z);
@@ -374,13 +445,13 @@ export default function Stl(width, height, file, objectColor, primaryColor,volum
         id = requestAnimationFrame(animate);
         if (loadedModel != null) {
             facingCamera.check(camera);
-                b64Screenshot(renderer.domElement.toDataURL("image/jpeg"));
-            }
+            b64Screenshot(renderer.domElement.toDataURL("image/jpeg"));
+        }
         dim0.update(camera);
         dim1.update(camera);
         controls.update();
         renderer.render(scene, camera);
-       
+
     };
     animate();
 }

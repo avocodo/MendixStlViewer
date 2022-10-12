@@ -17,5 +17,6 @@ Display of 3D STL model, calculate and store volume, display dimensions
 Sources used:
  * [basic react stl viewer](https://github.com/yatheeshraju/react-stl-file-viewer)
  * [2D dimension Lines](https://stackoverflow.com/questions/25432540/draw-dimension-lines-along-with-3d-cube-using-three-js)
+ * [Fit Object to Camera](https://wejn.org/assets/js/stlviewer-datatag.js)
 
 Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
