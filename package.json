@@ -1,7 +1,7 @@
 {
   "name": "stlviewer",
   "widgetName": "stlviewer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Viewer for STL files in Mendix",
   "copyright": "2022 Avocodo GmbH",
   "author": "Avocodo GmbH",
