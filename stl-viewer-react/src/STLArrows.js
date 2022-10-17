@@ -305,11 +305,12 @@ export default function Stl(width, height, file, objectColor, primaryColor, volu
     const signedVolumeOfTriangle = (p1, p2, p3) => {
         return p1.dot(p2.cross(p3)) / 6.0;
     };
-    const fitCameraToCenteredObject = (camera, object, offset, orbitControls) => {
-        const boundingBox = object.geometry.boundingBox
+    const fitCameraToCenteredObject = (camera, object, offset, orbitControls ) => {
+        const boundingBox = new THREE.Box3();
+        boundingBox.setFromObject( object );
         var size = new THREE.Vector3();
         boundingBox.getSize(size);
-
+    
         // figure out how to fit the box in the view:
         // 1. figure out horizontal FOV (on non-1.0 aspects)
         // 2. figure out distance from the object in X and Y planes
@@ -344,34 +345,33 @@ export default function Stl(width, height, file, objectColor, primaryColor, volu
         //
         // FTR, from https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
         // the camera.fov is the vertical FOV.
-
-
-        const fov = camera.fov * (Math.PI / 180);
-        const fovh = 2 * Math.atan(Math.tan(fov / 2) * camera.aspect);
-        let dx = size.z / 2 + Math.abs(size.x / 2 / Math.tan(fovh / 2));
-        let dy = size.z / 2 + Math.abs(size.y / 2 / Math.tan(fov / 2));
+    
+        const fov = camera.fov * ( Math.PI / 180 );
+        const fovh = 2*Math.atan(Math.tan(fov/2) * camera.aspect);
+        let dx = size.z / 2 + Math.abs( size.x / 2 / Math.tan( fovh / 2 ) );
+        let dy = size.z / 2 + Math.abs( size.y / 2 / Math.tan( fov / 2 ) );
         let cameraZ = Math.max(dx, dy);
-
+    
         // offset the camera, if desired (to avoid filling the whole canvas)
-        if (offset !== undefined && offset !== 0) cameraZ *= offset;
-
-        camera.position.set(0, 0, cameraZ);
-
+        if( offset !== undefined && offset !== 0 ) cameraZ *= offset;
+    
+        camera.position.set( 0, 0, cameraZ );
+    
         // set the far plane of the camera so that it easily encompasses the whole object
         const minZ = boundingBox.min.z;
-        const cameraToFarEdge = (minZ < 0) ? -minZ + cameraZ : cameraZ - minZ;
-
+        const cameraToFarEdge = ( minZ < 0 ) ? -minZ + cameraZ : cameraZ - minZ;
+    
         camera.far = cameraToFarEdge * 3;
         camera.updateProjectionMatrix();
-
-        if (orbitControls !== undefined) {
+    
+        if ( orbitControls !== undefined ) {
             // set camera to rotate around the center
             orbitControls.target = new THREE.Vector3(0, 0, 0);
-
+    
             // prevent camera from zooming out far enough to create far plane cutoff
             orbitControls.maxDistance = cameraToFarEdge * 2;
         }
-    };
+        };
     const dim0 = new RayysLinearDimension(document.getElementById("stlviewer"), renderer, camera);
     const dim1 = new RayysLinearDimension(document.getElementById("stlviewer"), renderer, camera);
 
@@ -384,21 +384,20 @@ export default function Stl(width, height, file, objectColor, primaryColor, volu
 
     facingCamera.cb.facingDirChange.push(event => {
         const facingDir = facingCamera.dirs[event.current.best];
+
         if (dim0.node !== undefined) {
             dim0.detach();
         }
         if (dim1.node !== undefined) {
             dim1.detach();
         }
+
         const bbox = loadedModel.geometry.boundingBox;
         let dimVector = new THREE.Vector3();
         bbox.getSize(dimVector);
         objHeight(dimVector.x);
         objWidth(dimVector.y);
         objDepth(dimVector.z);
-        if (loadedModel != null && repositioned == false) {
-            fitCameraToCenteredObject(camera, loadedModel, 2, controls);
-        }
         if (Math.abs(facingDir.x) === 1) {
             let from = new THREE.Vector3(bbox.min.x, bbox.min.y, bbox.min.z);
             let to = new THREE.Vector3(bbox.max.x, bbox.min.y, bbox.max.z);
@@ -446,6 +445,9 @@ export default function Stl(width, height, file, objectColor, primaryColor, volu
         if (loadedModel != null) {
             facingCamera.check(camera);
             b64Screenshot(renderer.domElement.toDataURL("image/jpeg"));
+            if (repositioned == false) {
+                fitCameraToCenteredObject(camera, loadedModel, 2, controls);
+            }
         }
         dim0.update(camera);
         dim1.update(camera);

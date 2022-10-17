@@ -1,6 +1,6 @@
 {
   "name": "custom-react-stl-viewer",
-  "version": "0.0.5",
+  "version": "1.0.2",
   "description": "Customized version of the yatheeshraju/react-stl-file-viewer. ",
   "author": "avocodo",
   "license": "MIT",
@@ -21,12 +21,12 @@
     "build": "microbundle  --no-compress --jsx React.createElement  --format modern,cjs"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
+    "react": "^17.0.2",
     "three": "^0.136.0"
   },
   "devDependencies": {
     "microbundle": "^0.15.1",
-    "react": "^16.13.1"
+    "react": "^17.0.2"
     
   },
   "dependencies": {
