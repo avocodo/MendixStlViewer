@@ -1,14 +1,14 @@
 /**
- * This file was generated from stlviewer.xml
+ * This file was generated from Stlviewer.xml
  * WARNING: All changes made to this file will be overwritten
- * @author Mendix UI Content Team
+ * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, EditableValue, FileValue } from "mendix";
 
 export type SizeUnitEnum = "px" | "percentage";
 
-export interface stlviewerContainerProps {
+export interface StlviewerContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
@@ -22,14 +22,21 @@ export interface stlviewerContainerProps {
     sizeUnit: SizeUnitEnum;
     width: number;
     height: number;
+    stlColor: string;
     onClickAction?: ActionValue;
 }
 
-export interface stlviewerPreviewProps {
+export interface StlviewerPreviewProps {
+    /**
+     * @deprecated Deprecated since version 9.18.0. Please use class property instead.
+     */
     className: string;
+    class: string;
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     file: string;
     volume: string;
     objHeight: string;
@@ -39,5 +46,6 @@ export interface stlviewerPreviewProps {
     sizeUnit: SizeUnitEnum;
     width: number | null;
     height: number | null;
+    stlColor: string;
     onClickAction: {} | null;
 }

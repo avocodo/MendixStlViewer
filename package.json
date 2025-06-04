@@ -1,42 +1,54 @@
 {
   "name": "stlviewer",
-  "widgetName": "stlviewer",
-  "version": "1.0.2",
+  "widgetName": "Stlviewer",
+  "version": "1.1.0",
   "description": "Viewer for STL files in Mendix",
-  "copyright": "2022 Avocodo GmbH",
-  "author": "Avocodo GmbH",
+  "copyright": "2025 Pierer Innovation",
+  "author": "Pierer Innovation",
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
+  "license": "CC BY-SA 4.0",
   "config": {
-    "projectPath": "../..//",
+    "projectPath": "../../",
     "mendixHost": "http://localhost:8080",
-    "developmentPort": "3000"
+    "developmentPort": 3000
   },
-  "packagePath": "avocodo",
+  "packagePath": "piererInnovation",
   "scripts": {
-    "start": "pluggable-widgets-tools start:web",
+    "start": "pluggable-widgets-tools start:server",
+    "dev": "pluggable-widgets-tools start:web",
     "build": "pluggable-widgets-tools build:web",
     "lint": "pluggable-widgets-tools lint",
     "lint:fix": "pluggable-widgets-tools lint:fix",
     "prerelease": "npm run lint",
     "release": "pluggable-widgets-tools release:web"
   },
-  "license": "CC BY-SA 4.0",
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^9.17.0"
+    "@mendix/pluggable-widgets-tools": "^10.21.0",
+    "@types/big.js": "^6.0.2",
+    "@types/three": "^0.135.0"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.39.0",
-    "@typescript-eslint/parser": "^5.39.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^27.1.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.8",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "mendix": "^9.18.53394",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "spinners-react": "^1.0.7"
+    "classnames": "^2.2.6",
+    "react-spinners": "^0.13.8",
+    "react-stl-file-viewer": "0.0.5",
+    "react-three-fiber": "^6.0.13",
+    "styled-components": "^5.3.3",
+    "three": "^0.135.0"
+  },
+  "resolutions": {
+    "react": "^18.2.0",
+    "@types/react": "18.2.0",
+    "react-native": "^0.73.5",
+    "react-dom": "18.2.0",
+    "@types/react-dom": "18.2.0"
+  },
+  "overrides": {
+    "react": "^18.2.0",
+    "@types/react": "18.2.0",
+    "react-native": "^0.73.5",
+    "react-dom": "18.2.0",
+    "@types/react-dom": "18.2.0"
   }
 }
