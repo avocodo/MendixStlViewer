@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget
-    id="avocodo.stlviewer.stlviewer"
-    pluginWidget="true"
-    needsEntityContext="true"
-    offlineCapable="true"
-    supportedPlatform="Web"
-    xmlns="http://www.mendix.com/widget/1.0/"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+        id="piererInnovation.stlviewer.stlviewer"
+        pluginWidget="true"
+        needsEntityContext="true"
+        offlineCapable="true"
+        supportedPlatform="Web"
+        xmlns="http://www.mendix.com/widget/1.0/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
 >
     <name>STLViewer</name>
     <description>Custom viewer for STL files</description>
@@ -18,35 +18,35 @@
                 <caption>File</caption>
                 <description>Modelfile</description>
             </property>
-             <property key="volume" type="attribute" required="false">
+            <property key="volume" type="attribute" required="false">
                 <caption>volume of model </caption>
                 <description>will be set by the viewer to this variable</description>
                 <attributeTypes>
                     <attributeType name="String"/>
                 </attributeTypes>
             </property>
-              <property key="objHeight" type="attribute" required="false">
+            <property key="objHeight" type="attribute" required="false">
                 <caption>height of model </caption>
                 <description>will be set by the viewer to this variable</description>
                 <attributeTypes>
                     <attributeType name="String"/>
                 </attributeTypes>
             </property>
-             <property key="objWidth" type="attribute" required="false">
+            <property key="objWidth" type="attribute" required="false">
                 <caption>width of model </caption>
                 <description>will be set by the viewer to this variable</description>
                 <attributeTypes>
                     <attributeType name="String"/>
                 </attributeTypes>
             </property>
-             <property key="objDepth" type="attribute" required="false">
+            <property key="objDepth" type="attribute" required="false">
                 <caption>depth of model </caption>
                 <description>will be set by the viewer to this variable</description>
                 <attributeTypes>
                     <attributeType name="String"/>
                 </attributeTypes>
-                    </property>
-                   <property key="b64Screenshot" type="attribute" required="false">
+            </property>
+            <property key="b64Screenshot" type="attribute" required="false">
                 <caption>Screenshot of model as base64 string </caption>
                 <description>will be set by the viewer to this variable</description>
                 <attributeTypes>
@@ -70,6 +70,10 @@
             <property key="height" type="integer" defaultValue="500">
                 <caption>Height</caption>
                 <description>Height of Viewer</description>
+            </property>
+            <property key="stlColor" type="string" defaultValue="#ffffff">
+                <caption>STL Color</caption>
+                <description>The color of the STl  Model.</description>
             </property>
         </propertyGroup>
         <propertyGroup caption="Events">

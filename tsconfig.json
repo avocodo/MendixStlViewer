@@ -1,7 +1,9 @@
 {
-  "extends": "./node_modules/@mendix/pluggable-widgets-tools/configs/tsconfig.base.json",
-  "compilerOptions":{ "noImplicitAny":false}
-   
-
-  
+  "extends": "@mendix/pluggable-widgets-tools/configs/tsconfig.base",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "jsx": "react",
+    "jsxFactory": "React.createElement"
+  },
+  "include": ["./src", "./typings"]
 }

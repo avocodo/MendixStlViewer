@@ -1,0 +1,24 @@
+/*
+Place your custom CSS here
+*/
+.dimension-label {
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+.info-box {
+    position: absolute;
+    top: -5px;
+    font-size: 80%;
+    background: #264ae5;
+    color: white;
+    padding: 7px;
+    font-weight: bold;
+    left: -5px;
+}
+.info-box p {
+    margin: 0;
+}
+/*canvas {*/
+/*    width: 100% !important;*/
+/*    min-width: 100%;*/
+/*}*/
